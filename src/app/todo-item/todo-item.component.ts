@@ -1,16 +1,36 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Input
+} from "@angular/core";
+
+import { TodoItemData } from "../dataTypes/TodoItemData";
+import { TodoService } from "../todo.service";
 
 @Component({
-  selector: 'app-todo-item',
-  templateUrl: './todo-item.component.html',
-  styleUrls: ['./todo-item.component.css'],
+  selector: "app-todo-item",
+  templateUrl: "./todo-item.component.html",
+  styleUrls: ["./todo-item.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemComponent implements OnInit {
+  @Input() item: TodoItemData;
+  private showEdit: boolean = false;
 
-  constructor() { }
+  constructor(private todoService: TodoService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  // Suppression de l'item itemRem
+  removeItem(itemRem: TodoItemData) {
+    // Suppression de l'item x dans notre liste
+    this.todoService.removeItems(itemRem);
   }
 
+  // Check tous les item avec le toggle-all
+  toggleComplete(itemChoosed: TodoItemData) {
+    //Check ou uncheck l'item
+    this.todoService.setItemsDone(!itemChoosed.isDone, itemChoosed);
+  }
 }

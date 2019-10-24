@@ -1,36 +1,66 @@
 <section class="todoapp">
   <header class="header">
-    <h1>{{titre}}</h1>
+    <h1>{{ label }}</h1>
     <form>
-      <input  #newTodoInput
-              name        = "newTodoInput"
-              class       = "new-todo"
-              placeholder = "Que faire?"
-              autofocus />
+      <input
+        #newTodoInput
+        name="newTodoInput"
+        class="new-todo"
+        placeholder="Que faire?"
+        autofocus
+        (keyup.enter)="addItem()"
+        [(ngModel)]="newTodoInputValue"
+      />
     </form>
   </header>
-  <section class="main">
-    <input  class="toggle-all"
-            type="checkbox"
-            name="toggleAll"
+  <section class="main" *ngIf="data.items.length > 0">
+    <input
+      class="toggle-all"
+      type="checkbox"
+      name="toggleAll"
+      (click)="toggleAllItems()"
+      [checked]="allCompleted()"
     />
     <ul class="todo-list">
+      <app-todo-item
+        [item]="item"
+        *ngFor="let item of ItemsFiltered()"
+      ></app-todo-item>
     </ul>
   </section>
-  <footer class="footer">
-    <span class="todo-count"><strong></strong> restantes</span>
+  <footer class="footer" *ngIf="data.items.length > 0">
+    <span class="todo-count">
+      <strong>{{ itemLeft() }}</strong>
+      {{ itemLeft() === 0 || itemLeft() === 1 ? "restante" : "restantes" }}
+    </span>
     <ul class="filters">
       <li>
-        <a class="filterAll">Tous</a>
+        <a
+          class="filterAll"
+          [ngClass]="{ selected: filter === 'all' }"
+          (click)="filter = 'all'"
+          >Tous</a
+        >
       </li>
       <li>
-        <a class="filterActives">Actifs</a>
+        <a
+          class="filterActives"
+          [ngClass]="{ selected: filter === 'active' }"
+          (click)="filter = 'active'"
+          >Actifs</a
+        >
       </li>
       <li>
-        <a class="filterCompleted">Complétés</a>
+        <a
+          class="filterCompleted"
+          [ngClass]="{ selected: filter === 'completed' }"
+          (click)="filter = 'completed'"
+          >Complétés</a
+        >
       </li>
     </ul>
-    <button class="clear-completed">Supprimer cochées</button>
+    <button class="clear-completed" (click)="checkedDelete()">
+      Supprimer cochées
+    </button>
   </footer>
 </section>
-<hr/>

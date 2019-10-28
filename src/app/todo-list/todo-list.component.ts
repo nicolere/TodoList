@@ -8,6 +8,8 @@ import { TodoListData } from "../dataTypes/TodoListData";
 import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
 
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 @Component({
   selector: "app-todo-list",
   templateUrl: "./todo-list.component.html",
@@ -21,6 +23,7 @@ export class TodoListComponent implements OnInit {
   private item: TodoItemData;
 
   private filter: string = "all";
+  faTrash = faTrash;
 
   constructor(private todoService: TodoService) {
     this.todoService
@@ -103,5 +106,10 @@ export class TodoListComponent implements OnInit {
     } else {
       return this.data.items.filter(item => item.isDone);
     }
+  }
+
+  //Supprime tous les items
+  removeAll() {
+    console.log("Supprime tout");
   }
 }

@@ -110,6 +110,9 @@ export class TodoListComponent implements OnInit {
 
   //Supprime tous les items
   removeAll() {
-    console.log("Supprime tout");
+    // console.log("Supprime tout");
+    this.data.items.forEach(item => {
+      this.removeItem(item);
+    });
   }
 }

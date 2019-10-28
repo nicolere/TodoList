@@ -64,7 +64,11 @@
         >
       </li>
     </ul>
-    <button class="clear-completed" (click)="checkedDelete()">
+    <button
+      *ngIf="itemComplete() > 0"
+      class="clear-completed"
+      (click)="checkedDelete()"
+    >
       Supprimer cochées
     </button>
   </footer>

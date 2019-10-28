@@ -88,6 +88,11 @@ export class TodoListComponent implements OnInit {
     );
   }
 
+  //Retourne le nombre d'item complétés
+  itemComplete() {
+    return this.data.items.filter(item => item.isDone).length;
+  }
+
   // Suppression de tous les items check
   checkedDelete() {
     this.data.items.forEach(item => {

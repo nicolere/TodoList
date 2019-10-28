@@ -9,6 +9,7 @@ import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
 
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-todo-list",
@@ -24,6 +25,7 @@ export class TodoListComponent implements OnInit {
 
   private filter: string = "all";
   faTrash = faTrash;
+  faMicrophone = faMicrophone;
 
   constructor(private todoService: TodoService) {
     this.todoService
@@ -103,7 +105,7 @@ export class TodoListComponent implements OnInit {
   }
 
   // Modifie le filtre et retourne la liste correspondante
-  ItemsFiltered() {
+  itemsFiltered() {
     if (this.filter === "all") {
       return this.data.items;
     } else if (this.filter === "active") {
@@ -119,5 +121,10 @@ export class TodoListComponent implements OnInit {
     this.data.items.forEach(item => {
       this.removeItem(item);
     });
+  }
+
+  // TODO : Voice speech catch method + Add this item
+  voiceAdd() {
+    console.log("je t'écoute");
   }
 }

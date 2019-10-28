@@ -13,6 +13,14 @@
       />
     </form>
   </header>
+  <section class="main">
+    <div id="voiceAdd">
+      <input #searchKey type="hidden" />
+      <div (click)="voiceAdd()" id="icon-mic">
+        <fa-icon [icon]="faMicrophone" size="2x"></fa-icon>
+      </div>
+    </div>
+  </section>
   <section class="main" *ngIf="data.items.length > 0">
     <input
       class="toggle-all"
@@ -24,7 +32,7 @@
     <ul class="todo-list">
       <app-todo-item
         [item]="item"
-        *ngFor="let item of ItemsFiltered()"
+        *ngFor="let item of itemsFiltered()"
       ></app-todo-item>
     </ul>
   </section>

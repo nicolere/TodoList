@@ -35,6 +35,11 @@
     </span>
     <ul class="filters">
       <li>
+        <button class="btn-supprAll" *ngIf="data.items.length > 0">
+          <fa-icon [icon]="faTrash" (click)="removeAll()"></fa-icon>
+        </button>
+      </li>
+      <li>
         <a
           class="filterAll"
           [ngClass]="{ selected: filter === 'all' }"

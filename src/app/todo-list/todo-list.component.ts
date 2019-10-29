@@ -2,11 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
+  OnDestroy,
+  ɵɵelementContainerStart
 } from "@angular/core";
 import { TodoListData } from "../dataTypes/TodoListData";
 import { TodoItemData } from "../dataTypes/TodoItemData";
+
 import { TodoService } from "../todo.service";
+import { SpeechRecognitionService } from "../speechRecognition.service";
 
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
@@ -17,22 +21,35 @@ import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./todo-list.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TodoListComponent implements OnInit {
+export class TodoListComponent implements OnInit, OnDestroy {
   @Input() newTodoInputValue: string;
 
   private data: TodoListData;
   private item: TodoItemData;
 
   private filter: string = "all";
+
+  private speechData: string;
+
+  // Icons
   faTrash = faTrash;
   faMicrophone = faMicrophone;
 
-  constructor(private todoService: TodoService) {
+  constructor(
+    private todoService: TodoService,
+    private speechRecognitionService: SpeechRecognitionService
+  ) {
     this.todoService
       .getTodoListDataObserver()
       .subscribe(data => (this.data = data));
+
+    this.speechData = "";
   }
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.speechRecognitionService.DestroySpeechObject();
+  }
 
   get label(): string {
     return this.data ? this.data.label : "";
@@ -44,7 +61,7 @@ export class TodoListComponent implements OnInit {
 
   // Ajout d'un item
   addItem() {
-    // Création Todoitem + test input vide
+    // Création Todoitem
     this.item = { label: this.newTodoInputValue, isDone: false };
 
     // Ajout de cet item dans la liste
@@ -123,8 +140,32 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  // TODO : Voice speech catch method + Add this item
-  voiceAdd() {
-    console.log("je t'écoute");
+  activateSpeechAdd(): void {
+    this.speechRecognitionService.record().subscribe(
+      // listener
+      value => {
+        this.speechData = value;
+        // console.log("val = " + value);
+      },
+      // error
+      err => {
+        console.log(err);
+        if (err.error === "no-speech") {
+          console.log("Redémarrage de l'écoute");
+          this.activateSpeechAdd();
+        }
+      },
+      // complete
+      () => {
+        console.log("Ecoute complète");
+        console.log("speech final = " + this.speechData);
+        if (this.speechData !== "") {
+          this.item = { label: this.speechData, isDone: false };
+          this.todoService.appendItems(this.item);
+        } else {
+          console.log("Input vide on n'ajoute rien");
+        }
+      }
+    );
   }
 }

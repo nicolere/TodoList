@@ -15,10 +15,9 @@
   </header>
   <section class="main">
     <div id="voiceAdd">
-      <input #searchKey type="hidden" />
-      <div (click)="voiceAdd()" id="icon-mic">
+      <button #micButton (click)="activateSpeechAdd()" id="icon-mic">
         <fa-icon [icon]="faMicrophone" size="2x"></fa-icon>
-      </div>
+      </button>
     </div>
   </section>
   <section class="main" *ngIf="data.items.length > 0">

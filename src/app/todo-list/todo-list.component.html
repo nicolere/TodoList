@@ -34,10 +34,13 @@
       [checked]="allCompleted()"
     />
     <ul class="todo-list">
-      <app-todo-item
-        [item]="item"
+      <li
         *ngFor="let item of itemsFiltered()"
-      ></app-todo-item>
+        [class.completed]="item.isDone"
+        [class.editing]="itemCompo.editionMode"
+      >
+        <app-todo-item #itemCompo [item]="item"></app-todo-item>
+      </li>
     </ul>
   </section>
   <footer class="footer" *ngIf="data.items.length > 0">

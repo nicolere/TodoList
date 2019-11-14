@@ -3,7 +3,8 @@ import {
   Component,
   OnInit,
   Input,
-  ViewChild
+  ViewChild,
+  ElementRef
 } from "@angular/core";
 
 import { TodoItemData } from "../dataTypes/TodoItemData";
@@ -18,7 +19,11 @@ import { faMapPin } from "@fortawesome/free-solid-svg-icons";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemComponent implements OnInit {
-  @Input() item: TodoItemData;
+  @Input() private item: TodoItemData;
+
+  @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
+
+  private _editionMode = false;
 
   // Icons
   faMapPin = faMapPin;
@@ -27,16 +32,34 @@ export class TodoItemComponent implements OnInit {
 
   ngOnInit() {}
 
-  // Suppression de l'item itemRem
-  removeItem(itemRem: TodoItemData) {
-    // Suppression de l'item x dans notre liste
-    this.todoService.removeItems(itemRem);
+  get editionMode(): boolean {
+    return this._editionMode;
   }
 
-  // Check tous les item avec le toggle-all
-  toggleComplete(itemChoosed: TodoItemData) {
-    //Check ou uncheck l'item
-    this.todoService.setItemsDone(!itemChoosed.isDone, itemChoosed);
+  set editionMode(e: boolean) {
+    this._editionMode = e;
+    requestAnimationFrame(() => this.inputLabel.nativeElement.focus);
+  }
+
+  get label(): string {
+    return this.item.label;
+  }
+
+  set label(lab: string) {
+    this.todoService.setItemsLabel(lab, this.item);
+  }
+
+  get isDone(): boolean {
+    return this.item.isDone;
+  }
+
+  set isDone(done: boolean) {
+    this.todoService.setItemsDone(done, this.item);
+    console.log("modif isDone");
+  }
+
+  destroy() {
+    this.todoService.removeItems(this.item);
   }
 
   // TODO : Méthodes show map dialog

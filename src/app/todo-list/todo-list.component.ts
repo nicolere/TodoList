@@ -73,15 +73,6 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.newTodoInputValue = "";
   }
 
-  // Suppression d'un item
-  removeItem(item: TodoItemData) {
-    // Suppression de l'item x dans notre liste
-    this.todoService.removeItems(item);
-
-    //Affichage test retours
-    // console.log(this.data.items);
-  }
-
   // Check tous les items d'un coup
   toggleAllItems() {
     this.allCompleted()
@@ -118,7 +109,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   checkedDelete() {
     this.data.items.forEach(item => {
       if (item.isDone) {
-        this.removeItem(item);
+        this.todoService.removeItems(item);
       }
     });
   }
@@ -138,7 +129,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   removeAll() {
     // console.log("Supprime tout");
     this.data.items.forEach(item => {
-      this.removeItem(item);
+      this.todoService.removeItems(item);
     });
   }
 

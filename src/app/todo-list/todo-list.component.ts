@@ -14,6 +14,7 @@ import { SpeechRecognitionService } from "../speechRecognition.service";
 
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import { faFlag } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-todo-list",
@@ -34,6 +35,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   // Icons
   faTrash = faTrash;
   faMicrophone = faMicrophone;
+  faFlag = faFlag;
 
   constructor(
     private todoService: TodoService,

@@ -2,11 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  Input
+  Input,
+  ViewChild
 } from "@angular/core";
 
 import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
+
+import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-todo-item",
@@ -16,7 +19,9 @@ import { TodoService } from "../todo.service";
 })
 export class TodoItemComponent implements OnInit {
   @Input() item: TodoItemData;
-  private showEdit: boolean = false;
+
+  // Icons
+  faMapPin = faMapPin;
 
   constructor(private todoService: TodoService) {}
 
@@ -32,5 +37,10 @@ export class TodoItemComponent implements OnInit {
   toggleComplete(itemChoosed: TodoItemData) {
     //Check ou uncheck l'item
     this.todoService.setItemsDone(!itemChoosed.isDone, itemChoosed);
+  }
+
+  // TODO : Méthodes show map dialog
+  openModal() {
+    console.log("show Map dialog");
   }
 }

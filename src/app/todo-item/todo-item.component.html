@@ -11,6 +11,9 @@
     <label class="texte" *ngIf="!showEdit" (dblclick)="showEdit = true">
       {{ item.label }}
     </label>
+    <button class="triggerMap" (mouseenter)="openModal()">
+      <fa-icon [icon]="faMapPin"></fa-icon>
+    </button>
     <button class="destroy" (click)="removeItem(item)"></button>
   </div>
   <form *ngIf="showEdit" (submit)="showEdit = false">
@@ -22,3 +25,6 @@
     />
   </form>
 </li>
+
+<!-- TODO : Setup Map modal -->
+<!-- Modal Map -->

@@ -133,6 +133,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     });
   }
 
+  //Active la reconnaissance vocale
   activateSpeechAdd(): void {
     this.speechRecognitionService.record().subscribe(
       // listener

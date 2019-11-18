@@ -10,7 +10,7 @@
   <label class="texte" (dblclick)="editionMode = true">
     {{ item.label }}
   </label>
-  <button class="triggerMap" (mouseenter)="openModal()">
+  <button class="triggerMap" (click)="openModal()">
     <fa-icon [icon]="faMapPin"></fa-icon>
   </button>
   <button class="destroy" (click)="destroy()"></button>
@@ -24,6 +24,3 @@
     (blur)="label = newTextInput.value"
   />
 </form>
-
-<!-- TODO : Setup Map modal -->
-<!-- Modal Map -->

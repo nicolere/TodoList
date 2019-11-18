@@ -9,7 +9,7 @@ import {
 
 import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
-
+import { GeocodeService } from "../geocode.service";
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -28,7 +28,10 @@ export class TodoItemComponent implements OnInit {
   // Icons
   faMapPin = faMapPin;
 
-  constructor(private todoService: TodoService) {}
+  constructor(
+    private todoService: TodoService,
+    private geocodeService: GeocodeService
+  ) {}
 
   ngOnInit() {}
 
@@ -64,6 +67,28 @@ export class TodoItemComponent implements OnInit {
 
   // TODO : Méthodes show map dialog
   openModal() {
-    console.log("show Map dialog");
+    let listCities: string[] = [
+      "Madrid",
+      "Barcelone",
+      "Paris",
+      "Londres",
+      "Berlin",
+      "Albi"
+    ];
+    let res: any[] = [];
+    listCities.forEach(elem => {
+      if (this.item.label.includes(elem)) {
+        console.log(elem + " reconnu et typeElem " + typeof elem);
+        // Coordonées GPS de la ville reconnue
+        // console.log("coordonnées GPS de "+elem+" : ");
+        // TODO : afficher une map
+        let city: string = elem;
+        this.geocodeService.geocodeAddress(elem, function(latlng) {
+          console.log(latlng);
+          res = latlng;
+          console.log(res[0]);
+        });
+      }
+    });
   }
 }

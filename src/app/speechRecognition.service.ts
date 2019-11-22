@@ -23,7 +23,7 @@ export class SpeechRecognitionService {
       this.speechRecognition.interimresults = true;
 
       // Choisi la langue d'écoute
-      this.speechRecognition.lang = "en-US";
+      this.speechRecognition.lang = "fr";
 
       // Ecoute
       this.speechRecognition.onresult = speech => {

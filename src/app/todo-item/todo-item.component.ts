@@ -77,17 +77,21 @@ export class TodoItemComponent implements OnInit {
 
   // TODO : Méthodes show map dialog
   getLatLet() {
-    let res: any[] = [];
-    this.listCities.forEach(elem => {
-      if (this.item.label.includes(elem)) {
-        // console.log(elem + " reconnu et typeElem " + typeof elem);
+    this.listCities.some(city => {
+      if (this.item.label.includes(city)) {
         // Coordonées GPS de la ville reconnue
         // TODO : afficher une map
-        let city: string = elem;
-        this.geocodeService.geocodeAddress(elem, function(latlng) {
-          console.log(latlng);
-          res = latlng;
-          console.log(res[0]);
+        let ourCity = city;
+        this.geocodeService.geocodeAddress(ourCity, function(latlng) {
+          // console.log(latlng);
+          console.log(
+            "Position de: " +
+              ourCity +
+              " \nlat: " +
+              latlng[0] +
+              " lng: " +
+              latlng[1]
+          );
         });
       }
     });

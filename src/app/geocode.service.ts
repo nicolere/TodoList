@@ -28,13 +28,6 @@ export class GeocodeService {
         console.log("Geocoding complete ");
         latlngmsg[0] = results[0].geometry.location.lat();
         latlngmsg[1] = results[0].geometry.location.lng();
-        latlngmsg[2] =
-          " address : " +
-          location +
-          " lat : " +
-          latlngmsg[0] +
-          "lng : " +
-          latlngmsg[1];
         callback(latlngmsg);
       } else {
         console.log(" Erreur - ", results, " & Statut - ", status);

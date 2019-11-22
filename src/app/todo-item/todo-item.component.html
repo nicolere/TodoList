@@ -12,7 +12,8 @@
   </label>
   <button
     [class]="cityExists() ? 'triggerMapExist' : 'triggerMapNotExist'"
-    (click)="getLatLet()"
+    (click)="getLatLng()"
+    (click)="ngxSmartModalService.getModal('mapModal').open()"
   >
     <fa-icon [icon]="faMapPin"></fa-icon>
   </button>
@@ -27,3 +28,11 @@
     (blur)="label = newTextInput.value"
   />
 </form>
+
+<!-- Modal affichage map -->
+<ngx-smart-modal #mapModal [identifier]="'mapModal'">
+  <h3 class="center-align">Position de villeX</h3>
+  <agm-map [latitude]="lat" [longitude]="lng" style="height: 200px;">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
+</ngx-smart-modal>

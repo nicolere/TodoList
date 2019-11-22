@@ -4,12 +4,14 @@ import {
   OnInit,
   Input,
   ViewChild,
-  ElementRef
+  ElementRef,
+  AfterViewInit
 } from "@angular/core";
 
 import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
 import { GeocodeService } from "../geocode.service";
+import { NgxSmartModalService } from "ngx-smart-modal";
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -18,13 +20,14 @@ import { faMapPin } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./todo-item.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TodoItemComponent implements OnInit {
+export class TodoItemComponent implements OnInit, AfterViewInit {
   @Input() private item: TodoItemData;
 
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
   private _editionMode = false;
-  private _cityExists = false;
+  lat = 51.678418;
+  lng = 7.809007;
 
   // Icons
   faMapPin = faMapPin;
@@ -40,10 +43,12 @@ export class TodoItemComponent implements OnInit {
 
   constructor(
     private todoService: TodoService,
-    private geocodeService: GeocodeService
+    private geocodeService: GeocodeService,
+    public ngxSmartModalService: NgxSmartModalService
   ) {}
 
   ngOnInit() {}
+  ngAfterViewInit() {}
 
   get editionMode(): boolean {
     return this._editionMode;
@@ -75,23 +80,17 @@ export class TodoItemComponent implements OnInit {
     this.todoService.removeItems(this.item);
   }
 
-  // TODO : Méthodes show map dialog
-  getLatLet() {
+  // TODO : Send Data to modal
+  getLatLng() {
     this.listCities.some(city => {
       if (this.item.label.includes(city)) {
-        // Coordonées GPS de la ville reconnue
-        // TODO : afficher une map
+        // Coordonées GPS de la ville reconnue + son nom
         let ourCity = city;
         this.geocodeService.geocodeAddress(ourCity, function(latlng) {
           // console.log(latlng);
-          console.log(
-            "Position de: " +
-              ourCity +
-              " \nlat: " +
-              latlng[0] +
-              " lng: " +
-              latlng[1]
-          );
+          let lat = latlng[0];
+          let lng = latlng[1];
+          console.log(lat + " " + lng);
         });
       }
     });

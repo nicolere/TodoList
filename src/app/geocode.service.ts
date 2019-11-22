@@ -20,20 +20,19 @@ export class GeocodeService {
   }
 
   geocodeAddress(location: string, callback) {
-    let latlngmsg = new Array(3);
+    let latlng = new Array(2);
     console.log("Start Geocoding :");
     this.initGeocoder();
     this.geocoder.geocode({ address: location }, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
         console.log("Geocoding complete ");
-        latlngmsg[0] = results[0].geometry.location.lat();
-        latlngmsg[1] = results[0].geometry.location.lng();
-        callback(latlngmsg);
+        latlng[0] = results[0].geometry.location.lat();
+        latlng[1] = results[0].geometry.location.lng();
+        callback(latlng);
       } else {
         console.log(" Erreur - ", results, " & Statut - ", status);
       }
     });
-    return latlngmsg;
   }
 
   // private waitForMapsToLoad(): Observable<boolean> {

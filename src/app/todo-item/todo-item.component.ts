@@ -24,9 +24,19 @@ export class TodoItemComponent implements OnInit {
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
   private _editionMode = false;
+  private _cityExists = false;
 
   // Icons
   faMapPin = faMapPin;
+
+  private listCities: string[] = [
+    "Madrid",
+    "Barcelone",
+    "Paris",
+    "Londres",
+    "Berlin",
+    "Albi"
+  ];
 
   constructor(
     private todoService: TodoService,
@@ -66,21 +76,12 @@ export class TodoItemComponent implements OnInit {
   }
 
   // TODO : Méthodes show map dialog
-  openModal() {
-    let listCities: string[] = [
-      "Madrid",
-      "Barcelone",
-      "Paris",
-      "Londres",
-      "Berlin",
-      "Albi"
-    ];
+  getLatLet() {
     let res: any[] = [];
-    listCities.forEach(elem => {
+    this.listCities.forEach(elem => {
       if (this.item.label.includes(elem)) {
-        console.log(elem + " reconnu et typeElem " + typeof elem);
+        // console.log(elem + " reconnu et typeElem " + typeof elem);
         // Coordonées GPS de la ville reconnue
-        // console.log("coordonnées GPS de "+elem+" : ");
         // TODO : afficher une map
         let city: string = elem;
         this.geocodeService.geocodeAddress(elem, function(latlng) {
@@ -90,5 +91,11 @@ export class TodoItemComponent implements OnInit {
         });
       }
     });
+  }
+
+  //Test pour vérifier si ville présente dans notre liste Cities
+  cityExists() {
+    // console.log(this.listCities.some(elem => this.item.label.includes(elem)));
+    return this.listCities.some(elem => this.item.label.includes(elem));
   }
 }

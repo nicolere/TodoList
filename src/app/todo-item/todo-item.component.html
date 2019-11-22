@@ -10,7 +10,10 @@
   <label class="texte" (dblclick)="editionMode = true">
     {{ item.label }}
   </label>
-  <button class="triggerMap" (click)="openModal()">
+  <button
+    [class]="cityExists() ? 'triggerMapExist' : 'triggerMapNotExist'"
+    (click)="getLatLet()"
+  >
     <fa-icon [icon]="faMapPin"></fa-icon>
   </button>
   <button class="destroy" (click)="destroy()"></button>

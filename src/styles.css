@@ -105,7 +105,7 @@ input[type="checkbox"] {
 }
 
 .new-todo {
-  padding: 16px 85px 16px 60px;
+  padding: 16px 60px 16px 60px;
   border: none;
   background: rgba(0, 0, 0, 0.003);
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
@@ -118,21 +118,6 @@ input[type="checkbox"] {
   width: 50px;
   height: 34px;
   color: grey;
-}
-
-#flagAdd button#icon-flag {
-  position: absolute;
-  top: -52px;
-  right: 32px;
-  width: 50px;
-  height: 34px;
-  color: grey;
-}
-
-#flagAdd button#icon-flag fa-icon:hover {
-  color: rgb(0, 165, 250);
-  cursor: pointer;
-  transition: color 0.2s ease-out;
 }
 
 #voiceAdd button#icon-mic fa-icon:hover {
@@ -277,7 +262,7 @@ label[for="toggle-all"] {
   margin-bottom: -1px;
 }
 
-.todo-list li .triggerMap {
+.todo-list li .triggerMapExist {
   position: absolute;
   top: 13px;
   right: 50px;
@@ -285,7 +270,15 @@ label[for="toggle-all"] {
   transition: color 0.2s ease-out;
 }
 
-.todo-list li .triggerMap:hover {
+.todo-list li .triggerMapNotExist {
+  position: absolute;
+  top: 13px;
+  right: 50px;
+  color: #d05353;
+  transition: color 0.2s ease-out;
+}
+
+.todo-list li .triggerMapExist:hover {
   cursor: pointer;
   color: #293a80;
 }

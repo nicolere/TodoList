@@ -30,9 +30,29 @@
 </form>
 
 <!-- Modal affichage map -->
-<ngx-smart-modal #mapModal [identifier]="'mapModal'">
-  <h3 class="center-align">Position de villeX</h3>
-  <agm-map [latitude]="lat" [longitude]="lng" style="height: 200px;">
-    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+<!-- <ng-template #mapModal>
+  <h3>Future ville : {{ ourMapModal.getData() | json }}</h3>
+  <div>
+    <pre>Future map</pre>
+  </div>
+</ng-template> -->
+
+<ngx-smart-modal #mapModal identifier="mapModal">
+  <h3>Ville : {{ city }}</h3>
+  <p>
+    <!-- {{ mapModal.getData(myCity) | json }} -->
+    Lattitude : {{ location.lat }} <br />
+    Longitude {{ location.lng }}
+  </p>
+  <agm-map
+    [latitude]="location?.lat"
+    [longitude]="location?.lng"
+    [zoomControl]="false"
+    style="height: 200px;"
+  >
+    <agm-marker
+      [latitude]="location?.lat"
+      [longitude]="location?.lng"
+    ></agm-marker>
   </agm-map>
 </ngx-smart-modal>

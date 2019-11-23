@@ -7,7 +7,6 @@ import { TodoItemComponent } from "./todo-item/todo-item.component";
 
 import { TodoService } from "./todo.service";
 import { SpeechRecognitionService } from "./speechRecognition.service";
-import { GeocodeService } from "./geocode.service";
 
 import { FormsModule } from "@angular/forms";
 import { AgmCoreModule } from "@agm/core";
@@ -25,7 +24,7 @@ import { NgxSmartModalModule } from "ngx-smart-modal";
     }),
     NgxSmartModalModule.forRoot()
   ],
-  providers: [TodoService, SpeechRecognitionService, GeocodeService],
+  providers: [TodoService, SpeechRecognitionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

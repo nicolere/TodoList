@@ -4,15 +4,17 @@ import {
   OnInit,
   Input,
   ViewChild,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from "@angular/core";
 
 import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
 import { NgxSmartModalService } from "ngx-smart-modal";
+import { GMapsService } from "../GMaps.service";
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
-import {} from "googlemaps";
-declare var google: any;
+import { Location } from "../location-model";
+import { GoogleMapsAPIWrapper } from "@agm/core";
 
 @Component({
   selector: "app-todo-item",
@@ -26,9 +28,8 @@ export class TodoItemComponent implements OnInit {
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
   private _editionMode = false;
-  lat;
-  lng;
-  private finalResult: any[];
+  city: string;
+  location: Location;
 
   // Icons
   faMapPin = faMapPin;
@@ -44,10 +45,17 @@ export class TodoItemComponent implements OnInit {
 
   constructor(
     private todoService: TodoService,
-    public ngxSmartModalService: NgxSmartModalService
+    public ngxSmartModalService: NgxSmartModalService,
+    private mapsService: GMapsService,
+    private ref: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.location = {
+      lat: 43.9333,
+      lng: 2.15
+    };
+  }
 
   get editionMode(): boolean {
     return this._editionMode;
@@ -81,37 +89,32 @@ export class TodoItemComponent implements OnInit {
 
   // TODO : Send Data to modal
   getLatLng() {
-    const geocoder = new google.maps.Geocoder();
-    let finalRes: any[] = [];
     this.listCities.some(city => {
       if (this.item.label.includes(city)) {
         // Coordonées GPS de la ville reconnue + son nom
         let ourCity = city;
-        geocoder.geocode({ address: ourCity }, (results, status) => {
-          if (status == google.maps.GeocoderStatus.OK) {
-            finalRes[0] = results[0].geometry.location.lat();
-            finalRes[1] = results[0].geometry.location.lng();
-            // console.log("dans if: " + finalRes); <-- Result OK
-            // this.storeAddressResult(finalRes); <-- Don't work cf. method
-          } else {
-            console.log("Unable to find address: " + status);
-          }
-          // console.log("exter if: " + finalRes); <-- Results OK
-        });
-        // console.log("exter geocoder: " + finalRes); <-- Result empty
+        this.mapsService
+          .geocodeAddress(ourCity)
+          .subscribe((location: Location) => {
+            // console.log(location);
+            this.location = location;
+            this.ref.detectChanges();
+          });
       }
     });
+    // this.ngxSmartModalService
+    //   .getModal("mapModal")
+    //   .onOpen.subscribe((modal: NgxSmartModalComponent) => {
+    //     // console.log(modal.getData().myCity);
+    //     console.log(modal.getData().location);
+    //     // this.city = modal.getData().myCity;
+    //     // this.location = modal.getData().myLocation;
+    //   });
   }
 
   //Test pour vérifier si ville présente dans notre liste Cities
   cityExists() {
     // console.log(this.listCities.some(elem => this.item.label.includes(elem)));
     return this.listCities.some(elem => this.item.label.includes(elem));
-  }
-
-  // Store something undefined ....
-  storeAddressResult(address: any[]) {
-    this.finalResult.push(address);
-    console.log("final result : " + this.finalResult);
   }
 }

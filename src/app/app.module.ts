@@ -20,7 +20,7 @@ import { NgxSmartModalModule } from "ngx-smart-modal";
     FormsModule,
     FontAwesomeModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyC4hIYHPuggHPkKR8FeZt4ck5ArCvIy0YA"
+      apiKey: "YOUR_API_KEY"
     }),
     NgxSmartModalModule.forRoot()
   ],

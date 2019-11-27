@@ -13,7 +13,6 @@
   <button
     [class]="cityExists() ? 'triggerMapExist' : 'triggerMapNotExist'"
     (click)="getLatLng()"
-    (click)="ngxSmartModalService.getModal('mapModal').open()"
   >
     <fa-icon [icon]="faMapPin"></fa-icon>
   </button>
@@ -38,12 +37,12 @@
 </ng-template> -->
 
 <ngx-smart-modal #mapModal identifier="mapModal">
-  <h3>Ville : {{ city }}</h3>
+  <pre>{{ location?.city }}</pre>
   <p>
-    <!-- {{ mapModal.getData(myCity) | json }} -->
-    Lattitude : {{ location.lat }} <br />
-    Longitude {{ location.lng }}
+    Lattitude : {{ location?.lat }} <br />
+    Longitude : {{ location?.lng }}
   </p>
+
   <agm-map
     [latitude]="location?.lat"
     [longitude]="location?.lng"

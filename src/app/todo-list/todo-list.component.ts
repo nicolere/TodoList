@@ -64,7 +64,10 @@ export class TodoListComponent implements OnInit, OnDestroy {
   // Ajout d'un item
   addItem() {
     // Création Todoitem
-    this.item = { label: this.newTodoInputValue, isDone: false };
+    this.item = {
+      label: this.newTodoInputValue,
+      isDone: false
+    };
 
     // Ajout de cet item dans la liste
     this.todoService.appendItems(this.item);
@@ -154,7 +157,10 @@ export class TodoListComponent implements OnInit, OnDestroy {
         console.log("Ecoute complète");
         console.log("speech final = " + this.speechData);
         if (this.speechData !== "") {
-          this.item = { label: this.speechData, isDone: false };
+          this.item = {
+            label: this.speechData,
+            isDone: false
+          };
           this.todoService.appendItems(this.item);
         } else {
           console.log("Input vide on n'ajoute rien");

@@ -267,6 +267,7 @@ label[for="toggle-all"] {
   position: absolute;
   top: 13px;
   right: 50px;
+  pointer-events: auto;
   color: #537ec5;
   transition: color 0.2s ease-out;
 }
@@ -275,6 +276,7 @@ label[for="toggle-all"] {
   position: absolute;
   top: 13px;
   right: 50px;
+  pointer-events: none;
   color: #d05353;
   transition: color 0.2s ease-out;
 }

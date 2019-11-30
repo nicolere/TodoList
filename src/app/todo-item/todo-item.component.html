@@ -3,7 +3,7 @@
     class="toggle"
     type="checkbox"
     name="done"
-    [ngModel]="isDone"
+    [(ngModel)]="isDone"
     (ngModelChange)="isDone = $event"
   />
 
@@ -17,6 +17,29 @@
     <fa-icon [icon]="faMapPin"></fa-icon>
   </button>
   <button class="destroy" (click)="destroy()"></button>
+  <div
+    tabindex="0"
+    (blur)="mapOpen = false"
+    *ngIf="mapOpen"
+    style="margin-left:45px;"
+  >
+    <pre>{{ location?.city }}</pre>
+    <p>
+      Lattitude : {{ location?.lat }} <br />
+      Longitude : {{ location?.lng }}
+    </p>
+    <agm-map
+      [latitude]="location.lat"
+      [longitude]="location.lng"
+      [zoomControl]="false"
+      style="height: 200px;"
+    >
+      <agm-marker
+        [latitude]="location.lat"
+        [longitude]="location.lng"
+      ></agm-marker>
+    </agm-map>
+  </div>
 </div>
 <form *ngIf="editionMode" (submit)="label = newTextInput.value">
   <input
@@ -27,31 +50,3 @@
     (blur)="label = newTextInput.value"
   />
 </form>
-
-<!-- Modal affichage map -->
-<!-- <ng-template #mapModal>
-  <h3>Future ville : {{ ourMapModal.getData() | json }}</h3>
-  <div>
-    <pre>Future map</pre>
-  </div>
-</ng-template> -->
-
-<ngx-smart-modal #mapModal identifier="mapModal">
-  <pre>{{ location?.city }}</pre>
-  <p>
-    Lattitude : {{ location?.lat }} <br />
-    Longitude : {{ location?.lng }}
-  </p>
-
-  <agm-map
-    [latitude]="location?.lat"
-    [longitude]="location?.lng"
-    [zoomControl]="false"
-    style="height: 200px;"
-  >
-    <agm-marker
-      [latitude]="location?.lat"
-      [longitude]="location?.lng"
-    ></agm-marker>
-  </agm-map>
-</ngx-smart-modal>

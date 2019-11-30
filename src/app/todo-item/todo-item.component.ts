@@ -14,6 +14,7 @@ import { NgxSmartModalService, NgxSmartModalComponent } from "ngx-smart-modal";
 
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 import { Location } from "../location-model";
+import { $ } from "protractor";
 
 @Component({
   selector: "app-todo-item",
@@ -25,8 +26,9 @@ export class TodoItemComponent implements OnInit {
   @Input() private item: TodoItemData;
 
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
-  @ViewChild("mapModal", { static: false }) private modal: ElementRef;
+
   private _editionMode = false;
+  public mapOpen = false;
   location: Location;
 
   // Icons
@@ -47,7 +49,13 @@ export class TodoItemComponent implements OnInit {
     private mapsService: GMapsService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.location = {
+      lat: 43.9333,
+      lng: 2.15,
+      city: "Albi"
+    };
+  }
 
   get editionMode(): boolean {
     return this._editionMode;
@@ -72,7 +80,7 @@ export class TodoItemComponent implements OnInit {
 
   set isDone(done: boolean) {
     this.todoService.setItemsDone(done, this.item);
-    console.log("modif isDone");
+    // console.log("modif isDone");
   }
 
   destroy() {
@@ -85,9 +93,9 @@ export class TodoItemComponent implements OnInit {
     return this.listCities.some(elem => this.item.label.includes(elem));
   }
 
-  // ! Dernière étape de dev : Finir la géolocalisation
+  //Localisation finie mais bug
+  // TODO : Toggle "isDone" close the map -> Fix it
 
-  // TODO : Send Data to modal
   getLatLng() {
     this.listCities.some(city => {
       if (this.item.label.includes(city)) {
@@ -95,19 +103,19 @@ export class TodoItemComponent implements OnInit {
         this.Geocode(city);
       }
     });
+    this.mapOpen = !this.mapOpen;
   }
-
-  // openModal() {
-  //   this.ngxSmartModalService.getModal("mapModal").open();
-  // }
 
   // Geocoder
   Geocode(city: string) {
     this.mapsService
       .geocodeAddress(city)
-      .then(function(result) {
-        console.log(result);
-      })
+      .then(
+        function(result) {
+          // console.log(result);
+          this.location = result;
+        }.bind(this)
+      )
       .catch(function(error) {
         console.log(error);
       });

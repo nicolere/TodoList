@@ -8,15 +8,14 @@ declare var google: any;
 export class GMapsService {
   private geocoder: any;
 
-  constructor(private mapLoader: MapsAPILoader) {}
-
-  private initGeocoder() {
-    console.log("Init Geocoder !");
-    this.geocoder = new google.maps.Geocoder();
+  constructor(private mapLoader: MapsAPILoader) {
+    this.mapLoader = mapLoader;
+    this.mapLoader.load().then(() => {
+      this.geocoder = new google.maps.Geocoder();
+    });
   }
 
   geocodeAddress(location: string): Promise<Location> {
-    this.initGeocoder();
     console.log("Start Geocoding of - ", location);
     return new Promise(
       function(resolve, reject) {

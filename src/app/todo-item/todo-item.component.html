@@ -23,11 +23,11 @@
     *ngIf="mapOpen"
     style="margin-left:45px;"
   >
-    <pre>{{ location?.city }}</pre>
-    <p>
+    <pre>
+        Ville : {{ location?.city }} <br />
       Lattitude : {{ location?.lat }} <br />
       Longitude : {{ location?.lng }}
-    </p>
+    </pre>
     <agm-map
       [latitude]="location.lat"
       [longitude]="location.lng"

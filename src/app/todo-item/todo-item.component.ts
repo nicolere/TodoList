@@ -28,18 +28,20 @@ export class TodoItemComponent implements OnInit {
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
   private _editionMode = false;
-  public mapOpen = false;
+  private mapOpen = false;
   location: Location;
 
   // Icons
   faMapPin = faMapPin;
 
+  // Liste des villes reconnues
   private listCities: string[] = [
     "Madrid",
     "Barcelone",
     "Paris",
     "Londres",
     "Berlin",
+    "Grenoble",
     "Albi"
   ];
 
@@ -93,9 +95,7 @@ export class TodoItemComponent implements OnInit {
     return this.listCities.some(elem => this.item.label.includes(elem));
   }
 
-  //Localisation finie mais bug
-  // TODO : Toggle "isDone" close the map -> Fix it
-
+  //Localisation d'un item
   getLatLng() {
     this.listCities.some(city => {
       if (this.item.label.includes(city)) {
@@ -106,7 +106,7 @@ export class TodoItemComponent implements OnInit {
     this.mapOpen = !this.mapOpen;
   }
 
-  // Geocoder
+  // Geocoder d'une ville
   Geocode(city: string) {
     this.mapsService
       .geocodeAddress(city)

@@ -3,8 +3,7 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy,
-  ɵɵelementContainerStart
+  OnDestroy
 } from "@angular/core";
 import { TodoListData } from "../dataTypes/TodoListData";
 import { TodoItemData } from "../dataTypes/TodoItemData";
@@ -62,7 +61,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   // Ajout d'un item
-  addItem() {
+  addItem(): void {
     // Création Todoitem
     this.item = {
       label: this.newTodoInputValue,
@@ -76,8 +75,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.newTodoInputValue = "";
   }
 
-  // Check tous les items d'un coup
-  toggleAllItems() {
+  // Check/Uncheck tous les items d'un coup
+  toggleAllItems(): void {
     this.allCompleted()
       ? this.data.items.forEach(item => {
           this.todoService.setItemsDone(false, item);
@@ -88,7 +87,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   // Retourne un booléen pour vérifier si tous items check
-  allCompleted() {
+  allCompleted(): boolean {
     return (
       this.data.items.length ===
       this.data.items.filter(item => item.isDone).length
@@ -96,7 +95,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   // Retourne le nombre d'items restants (uncheck)
-  itemLeft() {
+  itemLeft(): number {
     return (
       this.data.items.length -
       this.data.items.filter(item => item.isDone).length
@@ -104,12 +103,12 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   //Retourne le nombre d'item complétés
-  itemComplete() {
+  itemComplete(): number {
     return this.data.items.filter(item => item.isDone).length;
   }
 
   // Suppression de tous les items check
-  checkedDelete() {
+  checkedDelete(): void {
     this.data.items.forEach(item => {
       if (item.isDone) {
         this.todoService.removeItems(item);
@@ -129,7 +128,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   //Supprime tous les items
-  removeAll() {
+  removeAll(): void {
     // console.log("Supprime tout");
     this.data.items.forEach(item => {
       this.todoService.removeItems(item);
@@ -146,7 +145,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
       },
       // error
       err => {
-        console.log(err);
+        // console.log(err);
         if (err.error === "no-speech") {
           console.log("Redémarrage de l'écoute");
           this.activateSpeechAdd();

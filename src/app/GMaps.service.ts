@@ -27,11 +27,11 @@ export class GMapsService {
               lng: results[0].geometry.location.lng(),
               city: location
             };
-            // Resolve ...
+            // Resolve notre object voulu
             resolve(obj);
           } else {
             console.log("Error - ", results, " & Status - ", status);
-            // Reject ...
+            // Reject le statut si erreur
             reject(status);
           }
         });

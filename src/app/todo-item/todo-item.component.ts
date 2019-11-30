@@ -14,7 +14,6 @@ import { NgxSmartModalService, NgxSmartModalComponent } from "ngx-smart-modal";
 
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 import { Location } from "../location-model";
-import { $ } from "protractor";
 
 @Component({
   selector: "app-todo-item",
@@ -89,13 +88,13 @@ export class TodoItemComponent implements OnInit {
     this.todoService.removeItems(this.item);
   }
 
-  //Test pour vérifier si ville présente dans notre liste Cities
+  //Test pour vérifier si ville présente dans ListCities
   cityExists() {
     // console.log(this.listCities.some(elem => this.item.label.includes(elem)));
     return this.listCities.some(elem => this.item.label.includes(elem));
   }
 
-  //Localisation d'un item
+  //Localisation d'un item + Affichage map
   getLatLng() {
     this.listCities.some(city => {
       if (this.item.label.includes(city)) {

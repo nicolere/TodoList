@@ -65,6 +65,7 @@ export class TodoService {
     this.save();
   }
 
+  //Load la liste du localStorage
   load() {
     if (localStorage.getItem("todoList") !== null) {
       const tdl = JSON.parse(localStorage.getItem("todoList"));
@@ -75,6 +76,7 @@ export class TodoService {
     }
   }
 
+  //Save les items dans notre localStorage
   save() {
     localStorage.setItem(
       "todoList",

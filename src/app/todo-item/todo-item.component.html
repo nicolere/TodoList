@@ -3,17 +3,43 @@
     class="toggle"
     type="checkbox"
     name="done"
-    [ngModel]="isDone"
+    [(ngModel)]="isDone"
     (ngModelChange)="isDone = $event"
   />
 
   <label class="texte" (dblclick)="editionMode = true">
     {{ item.label }}
   </label>
-  <button class="triggerMap" (mouseenter)="openModal()">
+  <button
+    [class]="cityExists() ? 'triggerMapExist' : 'triggerMapNotExist'"
+    (click)="getLatLng()"
+  >
     <fa-icon [icon]="faMapPin"></fa-icon>
   </button>
   <button class="destroy" (click)="destroy()"></button>
+  <div
+    tabindex="0"
+    (blur)="mapOpen = false"
+    *ngIf="mapOpen"
+    style="margin-left:45px;"
+  >
+    <pre>
+        Ville : {{ location?.city }} <br />
+      Lattitude : {{ location?.lat }} <br />
+      Longitude : {{ location?.lng }}
+    </pre>
+    <agm-map
+      [latitude]="location.lat"
+      [longitude]="location.lng"
+      [zoomControl]="false"
+      style="height: 200px;"
+    >
+      <agm-marker
+        [latitude]="location.lat"
+        [longitude]="location.lng"
+      ></agm-marker>
+    </agm-map>
+  </div>
 </div>
 <form *ngIf="editionMode" (submit)="label = newTextInput.value">
   <input
@@ -24,6 +50,3 @@
     (blur)="label = newTextInput.value"
   />
 </form>
-
-<!-- TODO : Setup Map modal -->
-<!-- Modal Map -->

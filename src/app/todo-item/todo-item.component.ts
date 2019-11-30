@@ -9,8 +9,12 @@ import {
 
 import { TodoItemData } from "../dataTypes/TodoItemData";
 import { TodoService } from "../todo.service";
+import { GMapsService } from "../GMaps.service";
+import { NgxSmartModalService, NgxSmartModalComponent } from "ngx-smart-modal";
 
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
+import { Location } from "../location-model";
+import { $ } from "protractor";
 
 @Component({
   selector: "app-todo-item",
@@ -24,13 +28,36 @@ export class TodoItemComponent implements OnInit {
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
   private _editionMode = false;
+  private mapOpen = false;
+  location: Location;
 
   // Icons
   faMapPin = faMapPin;
 
-  constructor(private todoService: TodoService) {}
+  // Liste des villes reconnues
+  private listCities: string[] = [
+    "Madrid",
+    "Barcelone",
+    "Paris",
+    "Londres",
+    "Berlin",
+    "Grenoble",
+    "Albi"
+  ];
 
-  ngOnInit() {}
+  constructor(
+    private todoService: TodoService,
+    public ngxSmartModalService: NgxSmartModalService,
+    private mapsService: GMapsService
+  ) {}
+
+  ngOnInit() {
+    this.location = {
+      lat: 43.9333,
+      lng: 2.15,
+      city: "Albi"
+    };
+  }
 
   get editionMode(): boolean {
     return this._editionMode;
@@ -55,15 +82,42 @@ export class TodoItemComponent implements OnInit {
 
   set isDone(done: boolean) {
     this.todoService.setItemsDone(done, this.item);
-    console.log("modif isDone");
+    // console.log("modif isDone");
   }
 
   destroy() {
     this.todoService.removeItems(this.item);
   }
 
-  // TODO : Méthodes show map dialog
-  openModal() {
-    console.log("show Map dialog");
+  //Test pour vérifier si ville présente dans notre liste Cities
+  cityExists() {
+    // console.log(this.listCities.some(elem => this.item.label.includes(elem)));
+    return this.listCities.some(elem => this.item.label.includes(elem));
+  }
+
+  //Localisation d'un item
+  getLatLng() {
+    this.listCities.some(city => {
+      if (this.item.label.includes(city)) {
+        // Coordonées GPS de la ville reconnue + son nom
+        this.Geocode(city);
+      }
+    });
+    this.mapOpen = !this.mapOpen;
+  }
+
+  // Geocoder d'une ville
+  Geocode(city: string) {
+    this.mapsService
+      .geocodeAddress(city)
+      .then(
+        function(result) {
+          // console.log(result);
+          this.location = result;
+        }.bind(this)
+      )
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 }
